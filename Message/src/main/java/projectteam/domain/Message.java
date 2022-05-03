@@ -15,14 +15,8 @@ public class Message  {
     
     
     private Long msgId;
-    
-    
     private Long gameId;
-    
-    
     private Long customerId;
-    
-    
     private String content;
 
 

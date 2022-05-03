@@ -113,20 +113,31 @@ public class PolicyHandler{
     public void wheneverRelesedateComed_SendReleaseDate(@Payload RelesedateComed relesedateComed){
 
         if(!relesedateComed.validate()) return;
-        RelesedateComed event = relesedateComed;
+
         System.out.println("\n\n##### listener SendReleaseDate : " + relesedateComed.toJson() + "\n\n");
 
+        // gameId 추출
+        long gameId = relesedateComed.getGameId(); // 취소된 gameId
+        String msgString = "[" + gameId +"] 가 출시되었습니다.";
 
-        
+        System.out.println("\n\n##### listener SendReleaseDate : " + gameId + " " + msgString + "\n\n");
 
-        // Sample Logic //
-        Message.sendReleaseDate(event);
-        
-
-        
-
+        // 메시지 전송
+        sendMsg(gameId, msgString);
     }
 
+    private void sendMsg(long gameId, String msgString) {
+
+        //////////////////////////////////////////////
+        // gameId 룸에 대해 msgString으로 SMS를 쌓는다
+        //////////////////////////////////////////////
+        Message msg = new Message();
+        msg.setGameId(gameId);
+        msg.setContent(msgString);
+
+        // DB Insert
+        messageRepository.save(msg);
+    }
 
 }
 

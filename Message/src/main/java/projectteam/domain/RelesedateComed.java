@@ -6,22 +6,13 @@ import projectteam.infra.AbstractEvent;
 import java.util.Date; 
 
 public class RelesedateComed extends AbstractEvent {
-
-    private Long id;
     private Long gameId;
-    private String purchaseStatus;
+    private String status;
     private Integer version;
     private Integer price;
     private Long customerId;
     private Date releaseDate;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
     public Long getGameId() {
         return gameId;
     }
@@ -29,12 +20,12 @@ public class RelesedateComed extends AbstractEvent {
     public void setGameId(Long gameId) {
         this.gameId = gameId;
     }
-    public String getPurchaseStatus() {
-        return purchaseStatus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setPurchaseStatus(String purchaseStatus) {
-        this.purchaseStatus = purchaseStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
     public Integer getVersion() {
         return version;
