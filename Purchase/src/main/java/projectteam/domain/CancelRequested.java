@@ -1,0 +1,50 @@
+package projectteam.domain;
+
+import projectteam.domain.*;
+import projectteam.infra.AbstractEvent;
+
+
+public class CancelRequested extends AbstractEvent {
+
+    private Long purchaseId;
+    private Long gameId;
+    private Integer price;
+    private Long customerId;
+
+    public CancelRequested(){
+        super();
+    }
+
+    
+    public Long getPurchaseId() {
+        return purchaseId;
+    }
+
+    public void setPurchaseId(Long purchaseId) {
+        this.purchaseId = purchaseId;
+    }
+    
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
+    }
+    
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+    
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+}
