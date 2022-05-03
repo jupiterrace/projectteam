@@ -18,8 +18,62 @@ public class ViewViewHandler {
     @Autowired
     private ViewRepository viewRepository;
 
+    //////////////////////////////////////////
+    // 게임이 등록되었을 때 Insert -> View TABLE
+    //////////////////////////////////////////
+    @StreamListener(KafkaProcessor.INPUT)
+    public void whenGameRegistered_then_CREATE_1 (@Payload GameRegistered roomRegistered) {
+        try {
 
+            if (!roomRegistered.validate()) return;
 
+            // view 객체 생성
+            View view = new View();
+            // view 객체에 이벤트의 Value 를 set 함
+            view.setGameId(roomRegistered.getGameId());
+            view.setReviewCount(roomRegistered.getReviewCount());
+            view.setGameStatus(roomRegistered.getStatus());
+            // view 레파지 토리에 save
+            viewRepository.save(view);
+        
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
+    //////////////////////////////////////////////////
+    // 게임이 삭제 되었을 때 Delete -> View TABLE
+    //////////////////////////////////////////////////
+    @StreamListener(KafkaProcessor.INPUT)
+    public void whenGameDeleted_then_DELETE_1(@Payload GameDeleted gameDeleted) {
+        try {
+            if (!gameDeleted.validate()) return;
+            // view 레파지 토리에 삭제 쿼리
+            viewRepository.deleteById(gameDeleted.getGameId());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //////////////////////////////////////////////////
+    // 게임이 출시 되었을 때 View TABLE
+    //////////////////////////////////////////////////
+    @StreamListener(KafkaProcessor.INPUT)
+    public void whenRelesedateComed_then_MODIFY_1(@Payload RelesedateComed relesedateComed) {
+        try {
+            if (!relesedateComed.validate()) return;
+            
+            Optional<View> viewOptional = viewRepository.findById(relesedateComed.getGameId());
+            if( viewOptional.isPresent()) {
+                View view = viewOptional.get();
+                view.setGameStatus("released");
+                viewRepository.save(view);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    
 }
 

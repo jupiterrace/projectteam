@@ -15,8 +15,8 @@ public class View {
         private Long reviewCount;
         private String purchaseStatus;
         private String downloadStatus;
-        private Long customerId;
         private String version;
+        private String gameStatus;
 
 
         public Long getViewId() {
@@ -54,19 +54,21 @@ public class View {
         public void setDownloadStatus(String downloadStatus) {
             this.downloadStatus = downloadStatus;
         }
-        public Long getCustomerId() {
-            return customerId;
-        }
 
-        public void setCustomerId(Long customerId) {
-            this.customerId = customerId;
-        }
         public String getVersion() {
             return version;
         }
 
         public void setVersion(String version) {
             this.version = version;
+        }
+
+        public String getGameStatus() {
+            return gameStatus;
+        }
+
+        public void setGameStatus(String gameStatus) {
+            this.gameStatus = gameStatus;
         }
 
 }
