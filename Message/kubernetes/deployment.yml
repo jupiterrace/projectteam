@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: Message
+  name: message
   labels:
     app: Message
 spec:
@@ -15,8 +15,8 @@ spec:
         app: Message
     spec:
       containers:
-        - name: Message
-          image: username/Message:latest
+        - name: message
+          image: javajinx/message:v1
           ports:
             - containerPort: 8080
           readinessProbe:

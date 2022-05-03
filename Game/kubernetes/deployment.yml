@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: Game
+  name: game
   labels:
     app: Game
 spec:
@@ -15,8 +15,8 @@ spec:
         app: Game
     spec:
       containers:
-        - name: Game
-          image: username/Game:latest
+        - name: game
+          image: javajinx/game:v1
           ports:
             - containerPort: 8080
           readinessProbe:

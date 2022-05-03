@@ -15,7 +15,7 @@ spring:
         - id: View
           uri: http://localhost:8082
           predicates:
-            - Path= 
+            - Path=/views/** 
         - id: Purchase
           uri: http://localhost:8083
           predicates:
@@ -28,10 +28,6 @@ spring:
           uri: http://localhost:8085
           predicates:
             - Path=/messages/** 
-        - id: frontend
-          uri: http://localhost:8080
-          predicates:
-            - Path=/**
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -58,7 +54,7 @@ spring:
         - id: View
           uri: http://View:8080
           predicates:
-            - Path= 
+            - Path=/views/** 
         - id: Purchase
           uri: http://Purchase:8080
           predicates:
@@ -71,10 +67,6 @@ spring:
           uri: http://Message:8080
           predicates:
             - Path=/messages/** 
-        - id: frontend
-          uri: http://frontend:8080
-          predicates:
-            - Path=/**
       globalcors:
         corsConfigurations:
           '[/**]':

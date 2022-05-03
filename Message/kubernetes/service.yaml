@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: Message
+  name: message
   labels:
     app: Message
 spec:

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: View
+  name: view
   labels:
     app: View
 spec:
@@ -15,8 +15,8 @@ spec:
         app: View
     spec:
       containers:
-        - name: View
-          image: username/View:latest
+        - name: view
+          image: javajinx/view:v1
           ports:
             - containerPort: 8080
           readinessProbe:
