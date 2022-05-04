@@ -83,7 +83,10 @@ public class ViewViewHandler {
             Optional<View> viewOptional = viewRepository.findById(purchaseCompleted.getGameId());
             if( viewOptional.isPresent()) {
                 View view = viewOptional.get();
-                view.setPurchaseCount(view.getPurchaseCount()+1);
+                if(view.getPurchaseCount() == null)
+                    view.setPurchaseCount(1L);
+                else
+                    view.setPurchaseCount(view.getPurchaseCount()+1L);
                 view.setPurchaseStatus("purchased");
                 viewRepository.save(view);
             }
@@ -101,7 +104,10 @@ public class ViewViewHandler {
             Optional<View> viewOptional = viewRepository.findById(purchaseCancelCompleted.getGameId());
             if( viewOptional.isPresent()) {
                 View view = viewOptional.get();
-                view.setPurchaseCount(view.getPurchaseCount()-1);
+                if(view.getPurchaseCount() == null || view.getPurchaseCount() == 0)
+                    view.setPurchaseCount(0L);
+                else
+                    view.setPurchaseCount(view.getPurchaseCount()-1L);
                 view.setPurchaseStatus("purchasedCancelled");
                 viewRepository.save(view);
             }

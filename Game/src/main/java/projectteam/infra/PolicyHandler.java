@@ -45,8 +45,8 @@ public class PolicyHandler{
 
         long gameId = purchaseCancelCompleted.getGameId();
 
-        updateGameStatus(gameId, "available", "purchasedCancelled"); // Status Update
-        updatePurchaseCount(gameId, +1); // 구매건수 감소
+        updateGameStatus(gameId, "purchasedCancelled", "purchasedCancelled"); // Status Update
+        updatePurchaseCount(gameId, -1); // 구매건수 감소
     }
 
     @StreamListener(KafkaProcessor.INPUT)
@@ -61,6 +61,7 @@ public class PolicyHandler{
 
         long gameIdOfReview = reviewCreated.getGameId(); // 등록된 리뷰의 gameID
 
+        updateGameStatus(gameIdOfReview, "review", "review"); // Status Update
         updateReviewCount(gameIdOfReview, +1); // 리뷰건수 증가
     }
 
@@ -89,12 +90,11 @@ public class PolicyHandler{
         Optional<Game> res = gameRepository.findById(gameId);
         Game game = res.get();
 
-        System.out.println("gameId    : " + game.getGameId());
+        System.out.println("gameId      : " + game.getGameId());
         System.out.println("reviewCount : " + game.getReviewCount());
 
         // game 값 수정
         game.setReviewCount(game.getReviewCount() + num); // 리뷰건수 증가/감소
-        game.setLastAction("review");  // lastAction 값 셋팅
 
         System.out.println("Edited reviewCount : " + game.getReviewCount());
         System.out.println("Edited lastAction  : " + game.getLastAction());
@@ -113,23 +113,28 @@ public class PolicyHandler{
 
         // Game 테이블에서 gameId의 Data 조회 -> game
         Optional<Game> res = gameRepository.findById(gameId);
-        Game game = res.get();
+        if (res.isPresent()) {
+            Game game = res.get();
 
-        System.out.println("gameId              : " + game.getGameId());
-        System.out.println("Status      : " + game.getStatus());
-        System.out.println("lastAction          : " + game.getLastAction());
+            System.out.println("gameId      : " + game.getGameId());
+            System.out.println("Status      : " + game.getStatus());
+            System.out.println("lastAction  : " + game.getLastAction());
 
-        // game 값 수정
-        game.setStatus(status); // Status 수정 
-        game.setLastAction(lastAction);  // lastAction 값 셋팅
+            // game 값 수정
+            game.setStatus(status); // Status 수정 
+            game.setLastAction(lastAction);  // lastAction 값 셋팅
 
-        System.out.println("Edited Status     : " + game.getStatus());
-        System.out.println("Edited lastAction         : " + game.getLastAction());
+            System.out.println("Edited Status     : " + game.getStatus());
+            System.out.println("Edited lastAction : " + game.getLastAction());
 
-        /////////////
-        // DB Update
-        /////////////
-        gameRepository.save(game);
+            /////////////
+            // DB Update
+            /////////////
+            gameRepository.save(game);
+        }
+        else {
+            System.out.println("Error game not found : " + gameId);
+        }
     }
 
     private void updatePurchaseCount(long gameId, long num)     {
@@ -147,7 +152,6 @@ public class PolicyHandler{
 
         // game 값 수정
         game.setPurchaseCount(game.getPurchaseCount() + num); // 리뷰건수 증가/감소
-        game.setLastAction("review");  // lastAction 값 셋팅
 
         System.out.println("Edited purchaseCount : " + game.getPurchaseCount());
         System.out.println("Edited lastAction    : " + game.getLastAction());

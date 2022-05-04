@@ -24,15 +24,20 @@ public class Game  {
     private String lastAction;
     private Long purchaseCount;
 
+    @PrePersist
+    public void onPrePersist(){
+        // 기본값 셋팅
+        lastAction = "registered";    // Insert는 항상 register
+        reviewCount = 0L;             // 리뷰 건수는 따로 입력이 들어오지 않아도 기본값 0
+        purchaseCount = 0L;
+        status = "registered";
+    }
+
     @PostPersist
     public void onPostPersist(){
         //////////////////////////////
         // Game 테이블 Insert 후 수행
         //////////////////////////////
-
-        // 기본값 셋팅
-        lastAction = "register";    // Insert는 항상 register
-        reviewCount = 0L;             // 리뷰 건수는 따로 입력이 들어오지 않아도 기본값 0
 
         GameRegistered gameRegistered = new GameRegistered();
         BeanUtils.copyProperties(this, gameRegistered);
@@ -194,7 +199,7 @@ public class Game  {
         Input Event Content
         */
         this.setLastAction("relesedateComed");
-        this.setStatus("released");
+        this.setStatus("relesedateComed");
         BeanUtils.copyProperties(this, relesedateComed);
         relesedateComed.publish();
     }

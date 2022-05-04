@@ -26,9 +26,10 @@ public class PolicyHandler{
         System.out.println("\n\n##### listener SendPurchaseConfirmMsg : " + purchaseCompleted.toJson() + "\n\n");
 
         long gameId = purchaseCompleted.getGameId();
-        long purchaseId = purchaseCompleted.getPurchaseId();
-        long customerId = purchaseCompleted.getCustomerId();
-        String msgString = customerId + "화원님이 요청하신 [" + gameId +"] 를 구매하였습니다. (구매번호: " + purchaseId + ").";
+        //long purchaseId = purchaseCompleted.getPurchaseId();
+        //long customerId = purchaseCompleted.getCustomerId();
+        //String msgString = customerId + "화원님이 요청하신 [" + gameId +"] 를 구매하였습니다. (구매번호: " + purchaseId + ").";
+        String msgString = "회원님이 요청하신 게임 [" + gameId +"] 를 구매하였습니다. ";
 
         // 메시지 전송
         sendMsg(gameId, msgString);
@@ -43,9 +44,10 @@ public class PolicyHandler{
         System.out.println("\n\n##### listener SendPurchaseCancelMsg : " + purchaseCancelCompleted.toJson() + "\n\n");
 
         long gameId = purchaseCancelCompleted.getGameId();
-        long purchaseId = purchaseCancelCompleted.getPurchaseId();
-        long customerId = purchaseCancelCompleted.getCustomerId();
-        String msgString = customerId + "화원님이 요청하신 [" + gameId +"] 를 구매취소 하였습니다. (구매번호: " + purchaseId + ").";
+        //long purchaseId = purchaseCancelCompleted.getPurchaseId();
+        //long customerId = purchaseCancelCompleted.getCustomerId();
+        //String msgString = customerId + "회원님이 요청하신 [" + gameId +"] 를 구매취소 하였습니다. (구매번호: " + purchaseId + ").";
+        String msgString = "회원님이 요청하신 게임 [" + gameId +"] 를 구매취소 하였습니다. ";
 
         // 메시지 전송
         sendMsg(gameId, msgString);
@@ -114,7 +116,7 @@ public class PolicyHandler{
 
         // gameId 추출
         long gameId = relesedateComed.getGameId(); // 취소된 gameId
-        String msgString = "[" + gameId +"] 가 출시되었습니다.";
+        String msgString = "게임 [" + gameId +"] 가 출시되었습니다.";
 
         System.out.println("\n\n##### listener SendReleaseDate : " + gameId + " " + msgString + "\n\n");
 

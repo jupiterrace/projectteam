@@ -52,6 +52,8 @@ public class Purchase  {
         if(this.getStatus().equals("purchased")) {
             PurchaseCompleted purchaseCompleted = new PurchaseCompleted();
             BeanUtils.copyProperties(this, purchaseCompleted);
+            purchaseCompleted.setPurchaseId(this.getPurcahseId());
+            purchaseCompleted.setCustomerId(this.getCustomerId());
             purchaseCompleted.publishAfterCommit(); 
         }
 

@@ -28,7 +28,7 @@ public class PolicyHandler{
         long purchaseId = paymentCancelled.getPurchaseId(); // 결제 완료된 purchaseId
         long payId = paymentCancelled.getPayId(); // 결제된 payId -> 나중에 취소할때 쓰임
 
-        updatePurchaseStatus(purchaseId, "purchasedCancelled", payId ); // Status Update
+        updatePurchaseStatus(purchaseId, "purchasedCancelled", payId); // Status Update
     }
 
     @StreamListener(KafkaProcessor.INPUT)
@@ -42,21 +42,21 @@ public class PolicyHandler{
         updatePurchaseStatus(purchaseId, "purchased", payId); // Status Update
     }
 
-    private void updatePurchaseStatus(long rsvId, String status, long payId)     {
+    private void updatePurchaseStatus(long purchaseId, String status, long payId)     {
 
         //////////////////////////////////////////////
-        // roomId 룸 데이터의 status, lastAction 수정
+        // purchaseId 룸 데이터의 status, lastAction 수정
         //////////////////////////////////////////////
 
-        // Room 테이블에서 roomId의 Data 조회 -> room
-        Optional<Purchase> res = purchaseRepository.findById(rsvId);
+        // purchase 테이블에서 purchaseId의 Data 조회 -> purchase
+        Optional<Purchase> res = purchaseRepository.findById(purchaseId);
         Purchase purchase = res.get();
 
-        // room 값 수정
+        // purchase 값 수정
         purchase.setStatus(status); // status 수정 
         purchase.setPayId(payId); // payId 수정
 
-        System.out.println("Edited status     : " + purchase.getStatus());
+        System.out.println("Edited status    : " + purchase.getStatus());
         System.out.println("Edited payId     : " + purchase.getPayId());
 
         /////////////
