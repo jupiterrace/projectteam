@@ -1,28 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment
+  name: game
   labels:
-    app: Payment
+    app: Game
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: Payment
+      app: Game
   template:
     metadata:
       labels:
-        app: Payment
+        app: Game
     spec:
       containers:
-        - name: payment
-          image: javajinx/payment:v2
+        - name: game
+          image: javajinx/game:v1
           ports:
             - containerPort: 8080
-          args:
-            - /bin/sh
-            - -c
-            - touch /tmp/healthy; sleep 90; rm -rf /tmp/healthy; sleep 600
           readinessProbe:
             httpGet:
               path: '/actuator/health'
@@ -32,10 +28,9 @@ spec:
             periodSeconds: 5
             failureThreshold: 10
           livenessProbe:
-            exec:
-              command:
-                - cat
-                - /tmp/healthy
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
             initialDelaySeconds: 120
             timeoutSeconds: 2
             periodSeconds: 5

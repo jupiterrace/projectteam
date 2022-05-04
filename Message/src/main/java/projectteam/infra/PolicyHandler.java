@@ -23,17 +23,15 @@ public class PolicyHandler{
     public void wheneverPurchaseCompleted_SendPurchaseConfirmMsg(@Payload PurchaseCompleted purchaseCompleted){
 
         if(!purchaseCompleted.validate()) return;
-        PurchaseCompleted event = purchaseCompleted;
         System.out.println("\n\n##### listener SendPurchaseConfirmMsg : " + purchaseCompleted.toJson() + "\n\n");
 
+        long gameId = purchaseCompleted.getGameId();
+        long purchaseId = purchaseCompleted.getPurchaseId();
+        long customerId = purchaseCompleted.getCustomerId();
+        String msgString = customerId + "화원님이 요청하신 [" + gameId +"] 를 구매하였습니다. (구매번호: " + purchaseId + ").";
 
-        
-
-        // Sample Logic //
-        Message.sendPurchaseConfirmMsg(event);
-        
-
-        
+        // 메시지 전송
+        sendMsg(gameId, msgString);
 
     }
 
@@ -41,18 +39,16 @@ public class PolicyHandler{
     public void wheneverPurchaseCancelCompleted_SendPurchaseCancelMsg(@Payload PurchaseCancelCompleted purchaseCancelCompleted){
 
         if(!purchaseCancelCompleted.validate()) return;
-        PurchaseCancelCompleted event = purchaseCancelCompleted;
+
         System.out.println("\n\n##### listener SendPurchaseCancelMsg : " + purchaseCancelCompleted.toJson() + "\n\n");
 
+        long gameId = purchaseCancelCompleted.getGameId();
+        long purchaseId = purchaseCancelCompleted.getPurchaseId();
+        long customerId = purchaseCancelCompleted.getCustomerId();
+        String msgString = customerId + "화원님이 요청하신 [" + gameId +"] 를 구매취소 하였습니다. (구매번호: " + purchaseId + ").";
 
-        
-
-        // Sample Logic //
-        Message.sendPurchaseCancelMsg(event);
-        
-
-        
-
+        // 메시지 전송
+        sendMsg(gameId, msgString);
     }
 
     @StreamListener(KafkaProcessor.INPUT)

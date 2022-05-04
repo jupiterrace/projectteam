@@ -8,6 +8,8 @@ import projectteam.PurchaseApplication;
 import javax.persistence.*;
 import org.springframework.beans.BeanUtils;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
 
 
 @Entity
@@ -31,7 +33,6 @@ public class Purchase  {
         payment.setStatus("paid");
         PurchaseApplication.applicationContext.getBean(projectteam.external.PaymentService.class)
             .appovePayment(payment);
-
         
         /*
         PurchaseRequested purchaseRequested = new PurchaseRequested();

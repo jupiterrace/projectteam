@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: Purchase
+  name: purchase
   labels:
     app: Purchase
 spec:
@@ -15,8 +15,8 @@ spec:
         app: Purchase
     spec:
       containers:
-        - name: Purchase
-          image: username/Purchase:latest
+        - name: purchase
+          image: javajinx/purchase:v1
           ports:
             - containerPort: 8080
           readinessProbe:
