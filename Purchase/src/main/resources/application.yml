@@ -1,6 +1,5 @@
 server:
   port: 8080
-
 ---
 
 spring:
@@ -31,6 +30,19 @@ spring:
         event-out:
           destination: projectteam
           contentType: application/json
+prop:
+  game:
+    url: http://localhost:8084
+
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  command:
+    # 전역설정
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 610
 
 logging:
   level:
@@ -63,3 +75,6 @@ spring:
         event-out:
           destination: projectteam
           contentType: application/json
+prop:
+  game:
+    url: http://gateway:8080

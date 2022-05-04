@@ -14,29 +14,33 @@ public class Payment  {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    
-    
     private Long payId;
-    
-    
     private Long purchaseId;
-    
-    
     private Long gameId;
-    
-    
-    private Integer status;
+    private String status;
 
     @PostPersist
     public void onPostPersist(){
+        try {
+            Thread.currentThread().sleep((long) (400 + Math.random() * 220));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
         PaymentApproved paymentApproved = new PaymentApproved();
         BeanUtils.copyProperties(this, paymentApproved);
         paymentApproved.publishAfterCommit();
+    }
 
+    @PostUpdate
+    public void onPostUpdate(){
+
+        //////////////////////
+        // 결제 취소 된 경우
+        //////////////////////
         PaymentCancelled paymentCancelled = new PaymentCancelled();
         BeanUtils.copyProperties(this, paymentCancelled);
         paymentCancelled.publishAfterCommit();
-
     }
 
     public Long getPayId() {
@@ -63,11 +67,11 @@ public class Payment  {
         this.gameId = gameId;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

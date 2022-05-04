@@ -8,7 +8,8 @@ public class PaymentApproved extends AbstractEvent {
 
     private Long payId;
     private Long purchaseId;
-    private Integer status;
+    private String status;
+    private Long gameId;
 
     public PaymentApproved(){
         super();
@@ -31,11 +32,19 @@ public class PaymentApproved extends AbstractEvent {
         this.purchaseId = purchaseId;
     }
     
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
     }
 }

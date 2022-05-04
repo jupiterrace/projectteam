@@ -17,6 +17,7 @@ public class View {
         private String downloadStatus;
         private String version;
         private String gameStatus;
+        private Long purchaseCount;
 
 
         public Long getViewId() {
@@ -71,4 +72,11 @@ public class View {
             this.gameStatus = gameStatus;
         }
 
+        public Long getPurchaseCount() {
+            return purchaseCount;
+        }
+
+        public void setPurchaseCount(Long purchaseCount) {
+            this.purchaseCount = purchaseCount;
+        }
 }

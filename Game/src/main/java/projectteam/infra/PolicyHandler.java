@@ -22,7 +22,7 @@ public class PolicyHandler{
         if(!purchaseCompleted.validate()) return;
         
         ////////////////////////////////////////////////////////////////////
-        // 구매 확정 시 -> Room의 status => reserved, lastAction => reserved
+        // 구매 확정 시 -> Game의 status => purchased, lastAction => purchased
         ////////////////////////////////////////////////////////////////////
 
         System.out.println("##### listener CompletePurchase : " + purchaseCompleted.toJson());
@@ -30,6 +30,7 @@ public class PolicyHandler{
         long gameId = purchaseCompleted.getGameId();
 
         updateGameStatus(gameId, "purchased", "purchased"); // Status Update
+        updatePurchaseCount(gameId, +1); // 구매건수 증가
     }
 
     @StreamListener(KafkaProcessor.INPUT)
@@ -45,6 +46,7 @@ public class PolicyHandler{
         long gameId = purchaseCancelCompleted.getGameId();
 
         updateGameStatus(gameId, "available", "purchasedCancelled"); // Status Update
+        updatePurchaseCount(gameId, +1); // 구매건수 감소
     }
 
     @StreamListener(KafkaProcessor.INPUT)
@@ -94,8 +96,8 @@ public class PolicyHandler{
         game.setReviewCount(game.getReviewCount() + num); // 리뷰건수 증가/감소
         game.setLastAction("review");  // lastAction 값 셋팅
 
-        System.out.println("Edited reviewCnt : " + game.getReviewCount());
-        System.out.println("Edited lastAction : " + game.getLastAction());
+        System.out.println("Edited reviewCount : " + game.getReviewCount());
+        System.out.println("Edited lastAction  : " + game.getLastAction());
 
         /////////////
         // DB Update
@@ -123,6 +125,32 @@ public class PolicyHandler{
 
         System.out.println("Edited Status     : " + game.getStatus());
         System.out.println("Edited lastAction         : " + game.getLastAction());
+
+        /////////////
+        // DB Update
+        /////////////
+        gameRepository.save(game);
+    }
+
+    private void updatePurchaseCount(long gameId, long num)     {
+
+        //////////////////////////////////////////////
+        // gameId 룸 데이터의 ReviewCount를 num 만큼 가감
+        //////////////////////////////////////////////
+
+        // Game 테이블에서 gameId의 Data 조회 -> game
+        Optional<Game> res = gameRepository.findById(gameId);
+        Game game = res.get();
+
+        System.out.println("gameId    : " + game.getGameId());
+        System.out.println("purchaseCount : " + game.getPurchaseCount());
+
+        // game 값 수정
+        game.setPurchaseCount(game.getPurchaseCount() + num); // 리뷰건수 증가/감소
+        game.setLastAction("review");  // lastAction 값 셋팅
+
+        System.out.println("Edited purchaseCount : " + game.getPurchaseCount());
+        System.out.println("Edited lastAction    : " + game.getLastAction());
 
         /////////////
         // DB Update

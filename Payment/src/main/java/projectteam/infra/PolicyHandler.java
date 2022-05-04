@@ -13,6 +13,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import projectteam.domain.*;
 
+import java.util.Optional;
+
 
 @Service
 public class PolicyHandler{
@@ -25,18 +27,19 @@ public class PolicyHandler{
     public void wheneverCancelRequested_CancelPayment(@Payload CancelRequested cancelRequested){
 
         if(!cancelRequested.validate()) return;
-        CancelRequested event = cancelRequested;
+
         System.out.println("\n\n##### listener CancelPayment : " + cancelRequested.toJson() + "\n\n");
 
+        // 취소시킬 payId 추출
+        long payId = cancelRequested.getPayId(); // 취소시킬 payId
 
-        
+        Optional<Payment> res = paymentRepository.findById(payId);
+        Payment payment = res.get();
 
-        // Sample Logic //
-        Payment.cancelPayment(event);
-        
+        payment.setStatus("purchasedCancelled"); // 취소 상태로 
 
-        
-
+        // DB Update
+        paymentRepository.save(payment);
     }
 
 

@@ -10,6 +10,7 @@ public class PurchaseRequested extends AbstractEvent {
     private Long gameId;
     private Integer price;
     private Long customerId;
+    private Long payId;
 
     public PurchaseRequested(){
         super();
@@ -46,5 +47,14 @@ public class PurchaseRequested extends AbstractEvent {
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
+    }
+
+    // 추가
+    public Long getPayId() {
+        return payId;
+    }
+
+    public void setPayId(Long payId) {
+        this.payId = payId;
     }
 }

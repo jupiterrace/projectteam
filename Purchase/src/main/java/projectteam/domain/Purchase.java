@@ -16,51 +16,49 @@ public class Purchase  {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    
-    
     private Long purcahseId;
-    
-    
     private Long gameId;
-    
-    
     private Integer price;
-    
-    
     private Long customerId;
-    
-    
     private String status;
+    private Long payId;
 
     @PostPersist
     public void onPostPersist(){
-        PurchaseCancelCompleted purchaseCancelCompleted = new PurchaseCancelCompleted();
-        BeanUtils.copyProperties(this, purchaseCancelCompleted);
-        purchaseCancelCompleted.publishAfterCommit();
-
-        PurchaseRequested purchaseRequested = new PurchaseRequested();
-        BeanUtils.copyProperties(this, purchaseRequested);
-        purchaseRequested.publishAfterCommit();
-
-        //Following code causes dependency to external APIs
-        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
-
         projectteam.external.Payment payment = new projectteam.external.Payment();
-        // mappings goes here
+        payment.setPurchaseId(this.getPurcahseId());
+        payment.setGameId(this.getGameId());
+        payment.setStatus("paid");
         PurchaseApplication.applicationContext.getBean(projectteam.external.PaymentService.class)
             .appovePayment(payment);
 
-        CancelRequested cancelRequested = new CancelRequested();
-        BeanUtils.copyProperties(this, cancelRequested);
-        cancelRequested.publishAfterCommit();
-
+        
+        /*
+        PurchaseRequested purchaseRequested = new PurchaseRequested();
+        BeanUtils.copyProperties(this, purchaseRequested);
+        purchaseRequested.publishAfterCommit();
+        */
     }
-    @PreRemove
-    public void onPreRemove(){
-        PurchaseCompleted purchaseCompleted = new PurchaseCompleted();
-        BeanUtils.copyProperties(this, purchaseCompleted);
-        purchaseCompleted.publishAfterCommit();
 
+    @PostUpdate
+    public void onPostUpdate(){
+        if(this.getStatus().equals("reqCancel")) {
+            CancelRequested cancelRequested = new CancelRequested();
+            BeanUtils.copyProperties(this, cancelRequested);
+            cancelRequested.publishAfterCommit();
+        }
+                
+        if(this.getStatus().equals("purchased")) {
+            PurchaseCompleted purchaseCompleted = new PurchaseCompleted();
+            BeanUtils.copyProperties(this, purchaseCompleted);
+            purchaseCompleted.publishAfterCommit(); 
+        }
+
+        if(this.getStatus().equals("purchasedCancelled")) {
+            PurchaseCancelCompleted purchaseCancelCompleted = new PurchaseCancelCompleted();
+            BeanUtils.copyProperties(this, purchaseCancelCompleted);
+            purchaseCancelCompleted.publishAfterCommit();
+        }
     }
 
     public Long getPurcahseId() {
@@ -101,6 +99,15 @@ public class Purchase  {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    // 추가
+    public Long getPayId() {
+        return payId;
+    }
+
+    public void setPayId(Long payId) {
+        this.payId = payId;
     }
 
 

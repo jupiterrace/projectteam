@@ -9,6 +9,7 @@ public class PurchaseCompleted extends AbstractEvent {
     private Long purchaseId;
     private Long gameId;
     private Long customerId;
+    private Long payId;
 
     public PurchaseCompleted(){
         super();
@@ -37,5 +38,14 @@ public class PurchaseCompleted extends AbstractEvent {
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
+    }
+
+    // 추가
+    public Long getPayId() {
+        return payId;
+    }
+
+    public void setPayId(Long payId) {
+        this.payId = payId;
     }
 }

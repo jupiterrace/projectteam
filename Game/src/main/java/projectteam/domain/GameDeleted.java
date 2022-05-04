@@ -14,6 +14,7 @@ public class GameDeleted extends AbstractEvent {
     private Date releaseDate;
 
     private String lastAction;
+    private Long purchaseCount;
 
     public GameDeleted(){
         super();
@@ -82,5 +83,13 @@ public class GameDeleted extends AbstractEvent {
 
     public void setLastAction(String lastAction) {
         this.lastAction = lastAction;
+    }
+
+    public Long getPurchaseCount() {
+        return purchaseCount;
+    }
+
+    public void setPurchaseCount(Long purchaseCount) {
+        this.purchaseCount = purchaseCount;
     }
 }

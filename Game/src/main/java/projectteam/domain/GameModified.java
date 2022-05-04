@@ -15,6 +15,7 @@ public class GameModified extends AbstractEvent {
     private Date releaseDate;
 
     private String lastAction;
+    private Long purchaseCount;
 
     public GameModified(){
         super();
@@ -83,5 +84,13 @@ public class GameModified extends AbstractEvent {
 
     public void setLastAction(String lastAction) {
         this.lastAction = lastAction;
+    }
+
+    public Long getPurchaseCount() {
+        return purchaseCount;
+    }
+
+    public void setPurchaseCount(Long purchaseCount) {
+        this.purchaseCount = purchaseCount;
     }
 }

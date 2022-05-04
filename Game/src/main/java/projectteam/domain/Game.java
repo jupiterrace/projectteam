@@ -22,6 +22,7 @@ public class Game  {
     private Date releaseDate;
 
     private String lastAction;
+    private Long purchaseCount;
 
     @PostPersist
     public void onPostPersist(){
@@ -173,6 +174,14 @@ public class Game  {
         this.lastAction = lastAction;
     }
 
+    public Long getPurchaseCount() {
+        return purchaseCount;
+    }
+
+    public void setPurchaseCount(Long purchaseCount) {
+        this.purchaseCount = purchaseCount;
+    }
+
 
     public static GameRepository repository(){
         GameRepository gameRepository = GameApplication.applicationContext.getBean(GameRepository.class);
@@ -184,6 +193,8 @@ public class Game  {
         /*
         Input Event Content
         */
+        this.setLastAction("relesedateComed");
+        this.setStatus("released");
         BeanUtils.copyProperties(this, relesedateComed);
         relesedateComed.publish();
     }

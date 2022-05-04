@@ -15,7 +15,8 @@ public class GameRegistered extends AbstractEvent {
     private Long reviewCount;
     private Date releaseDate;
 
-    private String lastAction; 
+    private String lastAction;
+    private Long purchaseCount;
 
     public GameRegistered(){
         super();
@@ -84,5 +85,13 @@ public class GameRegistered extends AbstractEvent {
 
     public void setLastAction(String lastAction) {
         this.lastAction = lastAction;
+    }
+
+    public Long getPurchaseCount() {
+        return purchaseCount;
+    }
+
+    public void setPurchaseCount(Long purchaseCount) {
+        this.purchaseCount = purchaseCount;
     }
 }

@@ -66,7 +66,43 @@ public class ViewViewHandler {
             Optional<View> viewOptional = viewRepository.findById(relesedateComed.getGameId());
             if( viewOptional.isPresent()) {
                 View view = viewOptional.get();
-                view.setGameStatus("released");
+                view.setGameStatus("relesedateComed");
+                viewRepository.save(view);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @StreamListener(KafkaProcessor.INPUT)
+    public void wheneverPurchaseCompleted_CompletePurchase(@Payload PurchaseCompleted purchaseCompleted){
+        try {
+            if (!purchaseCompleted.validate()) return;
+            
+            Optional<View> viewOptional = viewRepository.findById(purchaseCompleted.getGameId());
+            if( viewOptional.isPresent()) {
+                View view = viewOptional.get();
+                view.setPurchaseCount(view.getPurchaseCount()+1);
+                view.setPurchaseStatus("purchased");
+                viewRepository.save(view);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @StreamListener(KafkaProcessor.INPUT)
+    public void wheneverPurchaseCancelCompleted_CancelPurchase(@Payload PurchaseCancelCompleted purchaseCancelCompleted){
+        try {
+            if (!purchaseCancelCompleted.validate()) return;
+            
+            Optional<View> viewOptional = viewRepository.findById(purchaseCancelCompleted.getGameId());
+            if( viewOptional.isPresent()) {
+                View view = viewOptional.get();
+                view.setPurchaseCount(view.getPurchaseCount()-1);
+                view.setPurchaseStatus("purchasedCancelled");
                 viewRepository.save(view);
             }
 

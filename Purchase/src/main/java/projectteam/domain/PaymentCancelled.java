@@ -9,7 +9,7 @@ public class PaymentCancelled extends AbstractEvent {
     private Long payId;
     private Long purchaseId;
     private Long gameId;
-    private Integer status;
+    private String status;
 
     public Long getPayId() {
         return payId;
@@ -32,11 +32,11 @@ public class PaymentCancelled extends AbstractEvent {
     public void setGameId(Long gameId) {
         this.gameId = gameId;
     }
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }
